@@ -1,0 +1,12 @@
+{
+  "name": "notebackend",
+  "version": "1.0.0",
+  "description": "Learning Full-stack development from Fullstackopen.com(University of Helsinki). This is the backend part of buillding logic for servers using Node, express and MongoDB",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fidelis Tuwei",
+  "license": "MIT"
+}
