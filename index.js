@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+app.use(express.json());
+
 let notes = [
     {
         id: 1,
@@ -16,11 +18,6 @@ let notes = [
         id: 3,
         content: "GET and POST are the most important methods of HTTP protocol",
         important: true
-    },
-    {
-        id: 4,
-        content: "Resource removal",
-        important: false
     }
 ]
 
@@ -29,7 +26,14 @@ app.get('/', (request, response) => {
 });
 
 app.get('/api/notes', (request, response) => {
-    response.json(notes);
+    return response.json(notes);
+})
+
+// POST request Receiving data
+app.post('/api/notes', (request, response) => {
+    const note = request.body
+    console.log(note);
+    response.json(note);
 });
 
 // Single source route
