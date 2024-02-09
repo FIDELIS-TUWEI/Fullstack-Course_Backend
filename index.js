@@ -16,6 +16,11 @@ let notes = [
         id: 3,
         content: "GET and POST are the most important methods of HTTP protocol",
         important: true
+    },
+    {
+        id: 4,
+        content: "Resource removal",
+        important: false
     }
 ]
 
@@ -40,6 +45,14 @@ app.get('/api/notes/:id', (request, response) => {
         return response.status(404).end()
     }
 });
+
+// Resource removal route
+app.delete('/api/notes/:id', (request, response) => {
+    const id = Number(request.params.id);
+    notes = notes.filter(note => note.id !== id)
+
+    response.status(204).end();
+})
 
 const PORT = 3001;
 app.listen(PORT)
