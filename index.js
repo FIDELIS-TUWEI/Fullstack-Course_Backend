@@ -26,6 +26,7 @@ const persons = [
     }
 ];
 
+
 app.get("/", (req, res) => {
     return res.send("Backend Server running")
 })
@@ -33,6 +34,10 @@ app.get("/", (req, res) => {
 app.get("/api/persons", (req, res) => {
     return res.json(persons)
 });
+
+app.get("/info", (req, res) => {
+    return res.send("Phonebook has info for 2 people")
+})
 
 const PORT = 3001;
 app.listen(PORT)
