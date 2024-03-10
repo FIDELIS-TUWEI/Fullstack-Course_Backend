@@ -1,9 +1,6 @@
-const dotenv = require("dotenv")
 const mongoose = require("mongoose");
 
-dotenv.config();
-
-const password = process.env.PASSWORD;
+const password = process.argv[2];
 
 const url = 
     `mongodb+srv://fidel-korir:${password}@fullstack-course.dwdrrrv.mongodb.net/fs-course?retryWrites=true&w=majority&appName=Fullstack-Course`
