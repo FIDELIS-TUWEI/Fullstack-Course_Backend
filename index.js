@@ -1,7 +1,7 @@
 const dotenv = require("dotenv");
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
+const Note = require("./models/note");
 const app = express();
 
 dotenv.config();
@@ -27,36 +27,6 @@ let notes = [
         important: true
     }
 ];
-
-const password = process.env.PASSWORD;
-
-const url = 
-    `mongodb+srv://fidel-korir:${password}@fullstack-course.dwdrrrv.mongodb.net/fs-course?retryWrites=true&w=majority&appName=Fullstack-Course`
-
-mongoose.set('strictQuery', false);
-mongoose.connect(url);
-
-const noteSchema = new mongoose.Schema({
-    content: String,
-    date: Date,
-    important: Boolean,
-});
-
-noteSchema.set('toJSON', {
-    transform: (document, returnedOject) => {
-        returnedOject.id = returnedOject._id.toString()
-        delete returnedOject._id
-        delete returnedOject.__v
-    }
-});
-
-const Note = mongoose.model('Note', noteSchema);
-
-const note = new Note({
-    content: 'Mongoose makes things easy',
-    date: new Date(),
-    important: true
-});
 
 app.get('/', (request, response) => {
     response.send('Learning Backend Development.')
