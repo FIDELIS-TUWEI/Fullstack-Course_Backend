@@ -1,6 +1,10 @@
+const dotenv = require("dotenv");
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
+
+dotenv.config();
 
 app.use(express.json());
 app.use(cors());
@@ -22,14 +26,38 @@ let notes = [
         content: "GET and POST are the most important methods of HTTP protocol",
         important: true
     }
-]
+];
+
+const password = process.env.PASSWORD;
+
+const url = 
+    `mongodb+srv://fidel-korir:${password}@fullstack-course.dwdrrrv.mongodb.net/fs-course?retryWrites=true&w=majority&appName=Fullstack-Course`
+
+mongoose.set('strictQuery', false);
+mongoose.connect(url);
+
+const noteSchema = new mongoose.Schema({
+    content: String,
+    date: Date,
+    important: Boolean,
+});
+
+const Note = mongoose.model('Note', noteSchema);
+
+const note = new Note({
+    content: 'Mongoose makes things easy',
+    date: new Date(),
+    important: true
+});
 
 app.get('/', (request, response) => {
     response.send('Learning Backend Development.')
 });
 
-app.get('/api/notes', (request, response) => {
-    return response.json(notes);
+app.get("/api/notes", (request, response) => {
+    Note.find({}).then(notes => {
+        response.json(notes);
+    })
 });
 
 // generate Id
