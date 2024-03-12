@@ -61,16 +61,9 @@ app.post('/api/notes', (request, response) => {
 
 // Single source route
 app.get('/api/notes/:id', (request, response) => {
-    const id = Number(request.params.id);
-    const note = notes.find(note => {
-        return note.id === id
+    Note.findById(request.params.id).then(note => {
+        response.json(note)
     });
-
-    if (note) {
-        return response.json(note);
-    } else {
-        return response.status(404).end()
-    }
 });
 
 // Resource removal route
