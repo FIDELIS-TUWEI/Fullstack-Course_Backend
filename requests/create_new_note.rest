@@ -2,7 +2,6 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    "id": 5,
     "content": "Vs-code Rest Client is a pretty handy tool",
     "important": true
 }
