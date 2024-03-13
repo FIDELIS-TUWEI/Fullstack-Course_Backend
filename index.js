@@ -10,17 +10,6 @@ app.use(express.json());
 app.use(cors());
 app.disable("x-powered-by");
 
-const errorHandler = (error, request, response, next) => {
-    console.error(error.message);
-
-    if (error.name === 'CastError') {
-        response.status(400).send({ error: 'Malformatted Id' })
-    }
-
-    next(error);
-}
-
-
 app.get('/', (request, response) => {
     response.send('Learning Backend Development.')
 });
@@ -67,9 +56,26 @@ app.get('/api/notes/:id', (request, response, next) => {
 // Resource removal route
 app.delete('/api/notes/:id', (request, response) => {
     response.status(204).end();
-})
+});
+
+// Unknown endpoint
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint);
 
 // Error handler middleware
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message);
+
+    if (error.name === 'CastError') {
+        response.status(400).send({ error: 'Malformatted Id' })
+    }
+
+    next(error);
+}
+
 app.use(errorHandler);
 
 
