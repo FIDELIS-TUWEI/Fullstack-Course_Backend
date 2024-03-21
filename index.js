@@ -21,7 +21,7 @@ app.get("/api/notes", (request, response) => {
 });
 
 // POST request Receiving data
-app.post('/api/notes', (request, response) => {
+app.post('/api/notes', (request, response, next) => {
     const body = request.body
 
     const note = new Note({
@@ -86,6 +86,8 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError') {
         response.status(400).send({ error: 'Malformatted Id' })
+    } else if(error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
     }
 
     next(error);
