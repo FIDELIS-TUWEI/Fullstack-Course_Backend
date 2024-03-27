@@ -31,7 +31,7 @@ app.post('/api/notes', (request, response, next) => {
 
     note.save()
         .then(savedNote => {
-        response.json(savedNote)
+            response.json(savedNote)
         }).catch(error => next(error));
 });
 
