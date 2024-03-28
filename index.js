@@ -6,9 +6,21 @@ const app = express();
 
 dotenv.config();
 
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method);
+    console.log('Path:', request.path);
+    console.log('Body:', request.body);
+    console.log('---');
+
+    next()
+}
+
 app.use(express.json());
 app.use(cors());
+app.use(requestLogger)
 app.disable("x-powered-by");
+
+
 
 app.get('/', (request, response) => {
     response.send('Learning Backend Development.')
