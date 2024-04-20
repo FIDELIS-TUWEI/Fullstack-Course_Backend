@@ -9,15 +9,15 @@ const logger = require('./utils/logger');
 
 mongoose.set("strictQuery", false);
 
-logger.info('Connecting to', config.MONGODB_URI);
+logger.info('Connecting to MongoDB Database...');
 
 // database connection
 mongoose.connect(config.MONGODB_URI)
     .then(() => {
-        logger.info('Connected to MongoDB');
+        logger.info('Connected to MongoDB Database');
     })
     .catch((error) => {
-        logger.error('Error connecting to MongoDB', error.message);
+        logger.error('Error connecting to MongoDB Database', error.message);
     });
 
 app.use(express.json());
@@ -25,7 +25,7 @@ app.use(cors());
 app.use(middleware.requestLogger)
 app.disable("x-powered-by");
 
-app.use('/api/notes', notesRouter);
+app.use('/api/v1', notesRouter);
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
