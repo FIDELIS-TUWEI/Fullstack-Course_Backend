@@ -5,14 +5,14 @@ notesRouter.get('/', (request, response) => {
     response.send('Learning Backend Development.')
 });
 
-notesRouter.get("/api/notes", (request, response) => {
+notesRouter.get("/notes", (request, response) => {
     Note.find({}).then(notes => {
         response.json(notes);
     })
 });
 
 // POST request Receiving data
-notesRouter.post('/api/notes', (request, response, next) => {
+notesRouter.post('/notes', (request, response, next) => {
     const body = request.body
 
     const note = new Note({
@@ -28,7 +28,7 @@ notesRouter.post('/api/notes', (request, response, next) => {
 
 
 // Single source route
-notesRouter.get('/api/notes/:id', (request, response, next) => {
+notesRouter.get('/notes/:id', (request, response, next) => {
     Note.findById(request.params.id).then(note => {
         if (note) {
          response.json(note)
@@ -40,7 +40,7 @@ notesRouter.get('/api/notes/:id', (request, response, next) => {
 });
 
 // Edit existing resource route
-notesRouter.put('/api/notes/:id', (request, response, next) => {
+notesRouter.put('/notes/:id', (request, response, next) => {
     const { content, important } = req.body
 
     Note.findByIdAndUpdate(request.params.id, { content, important }, { new: true, runValidators: true, context: 'query' })
@@ -51,7 +51,7 @@ notesRouter.put('/api/notes/:id', (request, response, next) => {
 });
 
 // Resource removal route
-notesRouter.delete('/api/notes/:id', (request, response, next) => {
+notesRouter.delete('/notes/:id', (request, response, next) => {
     Note.findByIdAndDelete(request.params.id)
         .then(result => {
             response.status(204).end()
