@@ -5,10 +5,9 @@ notesRouter.get('/', (request, response) => {
     response.send('Learning Backend Development.')
 });
 
-notesRouter.get("/notes", (request, response) => {
-    Note.find({}).then(notes => {
-        response.json(notes);
-    })
+notesRouter.get("/notes", async (request, response) => {
+    const notes = await Note.find({});
+    response.json(notes);
 });
 
 // POST request Receiving data
