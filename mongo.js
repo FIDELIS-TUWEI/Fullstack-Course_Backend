@@ -32,4 +32,4 @@ Note.find({}).then(result => {
         console.log(note);
     })
   mongoose.connection.close();
-})
+});
