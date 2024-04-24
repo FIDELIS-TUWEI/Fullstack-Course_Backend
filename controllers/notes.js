@@ -19,28 +19,22 @@ notesRouter.post('/notes', async (request, response, next) => {
         important: body.important || false,
     });
 
-   try {
     const savedNote = await note.save();
     response.status(201).json(savedNote);
-   } catch (exception) {
-    next(exception)
-   }
+   
 });
 
 
 // Single source route
 notesRouter.get('/notes/:id', async (request, response, next) => {
-    try {
-        const note = await Note.findById(request.params.id);
+    const note = await Note.findById(request.params.id);
 
-        if (note) {
-            response.json(note);
-        } else {
-            response.status(404).end();
-        }
-    } catch (exception) {
-        next(exception)
+    if (note) {
+        response.json(note);
+    } else {
+        response.status(404).end();
     }
+    
 });
 
 // Edit existing resource route
@@ -56,12 +50,9 @@ notesRouter.put('/notes/:id', (request, response, next) => {
 
 // Resource removal route
 notesRouter.delete('/notes/:id', async (request, response, next) => {
-    try {
-        await Note.findByIdAndDelete(request.params.id);
-        response.status(204).end();
-    } catch (exception) {
-        next(exception)
-    }
+    await Note.findByIdAndDelete(request.params.id);
+    response.status(204).end();
+    
 });
 
 module.exports = notesRouter;
