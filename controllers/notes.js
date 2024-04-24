@@ -19,10 +19,12 @@ notesRouter.post('/notes', async (request, response, next) => {
         important: body.important || false,
     });
 
-    note.save()
-        .then(savedNote => {
-            response.status(201).json(savedNote)
-        }).catch(error => next(error));
+   try {
+    const savedNote = await note.save();
+    response.status(201).json(savedNote);
+   } catch (exception) {
+    next(exception)
+   }
 });
 
 
