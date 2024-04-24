@@ -11,7 +11,7 @@ notesRouter.get("/notes", async (request, response) => {
 });
 
 // POST request Receiving data
-notesRouter.post('/notes', (request, response, next) => {
+notesRouter.post('/notes', async (request, response, next) => {
     const body = request.body
 
     const note = new Note({
