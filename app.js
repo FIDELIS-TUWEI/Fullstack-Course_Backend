@@ -5,6 +5,7 @@ const cors = require("cors");
 require("express-async-errors");
 const app = express();
 const notesRouter = require('./controllers/notes');
+const usersRouter = require("")
 const middleware = require('./utils/middleware');
 const logger = require('./utils/logger');
 
@@ -26,7 +27,13 @@ app.use(cors());
 app.use(middleware.requestLogger)
 app.disable("x-powered-by");
 
-app.use('/api/v1', notesRouter);
+app.get('/', (request, response) => {
+    response.send('Learning Backend Development.')
+});
+
+app.use('/api/v1/notes', notesRouter);
+app.use('/api/v1/users', usersRouter);
+
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
 
