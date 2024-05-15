@@ -1,10 +1,6 @@
 const notesRouter = require('express').Router();
 const Note = require('../models/note');
 
-notesRouter.get('/', (request, response) => {
-    response.send('Learning Backend Development.')
-});
-
 notesRouter.get("/notes", async (request, response) => {
     const notes = await Note.find({});
     response.json(notes);
