@@ -1,22 +1,38 @@
 const notesRouter = require('express').Router();
 const Note = require('../models/note');
 const User = require('../models/user');
+const jwt = require("jsonwebtoken");
+const config = require("../utils/config");
 
-notesRouter.get("/notes", async (request, response) => {
+// logic to get token
+const getTokenFrom = request => {
+    const authorization = request.get('authorization');
+    if (authorization?.startsWith('Bearer ')) {
+        return authorization.replace('Bearer ', '');
+    }
+    return null;
+}
+
+notesRouter.get("/", async (request, response) => {
     const notes = await Note.find({}).populate('user', { username: 1, name: 1 });
     response.json(notes);
 });
 
 // POST request Receiving data
-notesRouter.post('/notes', async (request, response, next) => {
+notesRouter.post("/", async (request, response, next) => {
     const body = request.body;
 
-    const user = await User.findById(body.userId)
+    const decodedToken = jwt.verify(getTokenFrom(request), config.SECRET);
+    if (!decodedToken.id) {
+        return response.status(401).json({ error: "token invalid" });
+    };
+
+    const user = await User.findById(decodedToken.id);
 
     const note = new Note({
         content: body.content,
         important: body.important === undefined ? false : body.important,
-        user: user.id
+        user: user._id
     });
 
     const savedNote = await note.save();
@@ -29,7 +45,7 @@ notesRouter.post('/notes', async (request, response, next) => {
 
 
 // Single source route
-notesRouter.get('/notes/:id', async (request, response, next) => {
+notesRouter.get('/:id', async (request, response, next) => {
     const note = await Note.findById(request.params.id);
 
     if (note) {
@@ -41,7 +57,7 @@ notesRouter.get('/notes/:id', async (request, response, next) => {
 });
 
 // Edit existing resource route
-notesRouter.put('/notes/:id', (request, response, next) => {
+notesRouter.put('/:id', (request, response, next) => {
     const { content, important } = req.body
 
     Note.findByIdAndUpdate(request.params.id, { content, important }, { new: true, runValidators: true, context: 'query' })
@@ -52,7 +68,7 @@ notesRouter.put('/notes/:id', (request, response, next) => {
 });
 
 // Resource removal route
-notesRouter.delete('/notes/:id', async (request, response, next) => {
+notesRouter.delete('/:id', async (request, response, next) => {
     await Note.findByIdAndDelete(request.params.id);
     response.status(204).end();
     
