@@ -1,8 +1,8 @@
 POST http://localhost:3001/api/v1/notes
 Content-Type: application/json
+Authorization: Bearer 
 
 {
-    "content": "New note for user in request body",
-    "important": true,
-    "userId": "664d86dd06094f07c066b88f"
+    "content": "Single page apps use token based auth",
+    "important": false,
 }
