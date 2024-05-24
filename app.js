@@ -32,7 +32,7 @@ app.get('/', (request, response) => {
     response.send('Learning Backend Development.')
 });
 
-app.use('/api/v1', notesRouter);
+app.use('/api/v1/notes', notesRouter);
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/login', loginRouter);
 
